@@ -1,0 +1,61 @@
+{
+    "init_data": {
+        "brands": [
+            {
+                "name": "Joie",
+                "image_path": "some_path"
+            }
+        ],
+        "collections": [
+            {
+                "name": "Signature",
+                "image_path": "some_path"
+            }
+        ],
+        "colors": [
+            {
+                "name": "Petity City",
+                "image_path": "some_path"
+            }
+        ],
+        "categorys": [
+            {
+                "name": "Catseat",
+                "image_path": "some_path"
+            }
+        ],
+        "models": [
+            {
+                "box_width": 1000,
+                "box_length": 1000,
+                "box_height": 1000,
+                "box_weight": 1000,
+                "open_width": 1000,
+                "open_length": 1000,
+                "open_height": 1000,
+                "close_width": 1000,
+                "close_length": 1000,
+                "close_height": 1000,
+                "weight": 1000,
+                "specification": {
+                    "ADAC": "good",
+                    "Group": "1/2/3/4"
+                }
+            }
+        ],
+        "skus": [
+            {
+                "sku": "A1123AANBZ000",
+                "price": "20000.00",
+                "quantity": 20,
+                "available": true
+            }
+        ],
+        "skuImages": [
+            {
+                "path": "some_path"
+            }
+        ]
+    },
+    "cases"
+}

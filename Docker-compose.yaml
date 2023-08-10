@@ -1,0 +1,37 @@
+version: "2"
+
+services:
+  startapp:
+    build:
+      context: .
+      dockerfile: ./docker/docker.dockerfile
+
+  redis:
+    image: docker.io/bitnami/redis:6.2
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
+    ports:
+      - "6379:6379"
+    volumes:
+      - "./runtime/bitnami/redis/data:/bitnami/redis/data"
+
+  celery:
+    build: .
+    entrypoint:
+      [
+        "celery",
+        "-A",
+        "app.modules.products.tasks.celery:celery",
+        "worker",
+        "-l",
+        "info",
+      ]
+
+  fastapi:
+    build: .
+    entrypoint: ["python3", "-m", "app.entrypoint:app"]
+    depends_on:
+      - startapp
+      - redis
+      - celery

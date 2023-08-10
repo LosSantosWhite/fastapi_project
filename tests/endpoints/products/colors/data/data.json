@@ -1,0 +1,37 @@
+{
+    "init_data": {
+        "colors": [
+            {
+                "name": "Petity City",
+                "image_path": "tests/endpoints/products/colors/data/test_image.png"
+            }
+        ]
+    },
+    "cases": {
+        "create": {
+            "payload": {
+                "name": "Some color name in tests",
+                "image_path": "tests/endpoints/products/colors/data/test_image.png"
+            },
+            "want": {
+                "name": "Some color name in tests",
+                "image_path": "tests/endpoints/products/colors/data/test_image.png"
+            }
+        },
+        "get": {
+            "want": {
+                "name": "Petity City",
+                "image_path": "tests/endpoints/products/colors/data/test_image.png"
+            }
+        },
+        "patch": {
+            "payload": {
+                "name": "Some new name"
+            },
+            "want": {
+                "name": "Some new name",
+                "image_path": "tests/endpoints/products/colors/data/test_image.png"
+            }
+        }
+    }
+}

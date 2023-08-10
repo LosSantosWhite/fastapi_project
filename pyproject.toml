@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "infanta-web"
+version = "0.0.1"
+description = "LLS Infanta web portal for customers"
+authors = ["LosSantosWhite <69223894+LosSantosWhite@users.noreply.github.com>"]
+readme = "README.md"
+packages = [{include = "infanta_web"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.100.0"
+SQLAlchemy = "^2.0.19"
+alembic = "^1.11.1"
+asyncpg = "^0.28.0"
+pytest = "^7.4.0"
+black = "^23.7.0"
+pydantic-settings = "^2.0.2"
+greenlet = "^2.0.2"
+celery = "^5.3.1"
+pillow = "^10.0.0"
+uvicorn = "^0.23.1"
+python-multipart = "^0.0.6"
+redis = "^4.6.0"
+httpx = "^0.24.1"
+pytest-asyncio = "^0.21.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
