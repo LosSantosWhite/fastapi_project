@@ -10,7 +10,7 @@ from .celery import celery
 
 
 @celery.task
-def resize_color_icon(path: str, name: str, heigth: int, width: int, model: Table):
+def resize_image(path: str, name: str, heigth: int, width: int, model: Table):
     path = Path(path)
     im = Image.open(path)
     resized_image = im.resize((heigth, width))

@@ -25,6 +25,7 @@ class BaseModelDict(BaseModel):
 
 class ProductDelete(BaseModelDict):
     uuid: UUID
+    permanent: bool = False
 
 
 class ProductUpdate(BaseModelDict):

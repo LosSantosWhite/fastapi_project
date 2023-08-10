@@ -1,11 +1,10 @@
-from pathlib import Path
 import os
+from pathlib import Path
 import shutil
 
-from app.modules.products.tasks import resize_color_icon
-from app.db.postgresql.crud import Table
-
 from fastapi import UploadFile
+
+from app.db.postgresql.crud import Table
 
 
 def create_dirs_if_not_exists(path: Path) -> str:
