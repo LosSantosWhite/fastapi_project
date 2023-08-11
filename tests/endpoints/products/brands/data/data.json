@@ -3,7 +3,7 @@
         "brands": [
             {
                 "name": "Swandoo",
-                "image_path": "tests/endpoints/products/brands/data/test_image.png"
+                "file": "tests/endpoints/products/brands/data/test_image.png"
             }
         ]
     },
@@ -11,17 +11,17 @@
         "create": {
             "payload": {
                 "name": "Joie",
-                "image_path": "tests/endpoints/products/brands/data/test_image.png"
+                "file": "tests/endpoints/products/brands/data/test_image.png"
             },
             "want": {
                 "name": "Joie",
-                "image_path": "tests/endpoints/products/brands/data/test_image.png"
+                "file": "tests/endpoints/products/brands/data/test_image.png"
             }
         },
         "get": {
             "want": {
                 "name": "Swandoo",
-                "image_path": "tests/endpoints/products/brands/data/test_image.png"
+                "file": "tests/endpoints/products/brands/data/test_image.png"
             }
         },
         "patch": {
@@ -30,7 +30,7 @@
             },
             "want": {
                 "name": "Some new name",
-                "image_path": "tests/endpoints/products/brands/data/test_image.png"
+                "file": "tests/endpoints/products/brands/data/test_image.png"
             }
         }
     }

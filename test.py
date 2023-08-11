@@ -1,20 +1,27 @@
-import httpx
+from functools import wraps
 
 
-async def make_my_response():
-    async with httpx.AsyncClient() as client:
-        name = {"name": "new name"}
-        with open(
-            "./tests/endpoints/products/colors/data/test_image.png", "rb"
-        ) as file_obj:
-            response = await client.post(
-                f"http://localhost:8080/admin/v1/color",
-                json=name,
-                files={"image": file_obj},
-            )
-            print(response.json())
+def my_dec(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        print("Вызван декоратор")
+        return func(*args, **kwargs)
+
+    return wrapper
 
 
-import asyncio
+class A:
+    table = "A"
 
-asyncio.run(make_my_response())
+    @my_dec
+    def print(self):
+        print(f"Вызван {self.__class__.__name__} == {self.table}")
+
+
+class B(A):
+    table = "B"
+
+
+b = B()
+
+b.print()

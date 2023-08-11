@@ -30,8 +30,7 @@ class ProductDelete(BaseModelDict):
 
 class ProductUpdate(BaseModelDict):
     uuid: UUID | str
-    name: Optional[str]
-    file: Optional[str | UploadFile]
+    name: Optional[str] = None
 
 
 class ProductRetrieve(BaseModelDict):
@@ -42,4 +41,3 @@ class ProductRetrieve(BaseModelDict):
 
 class ProductCreate(BaseModelDict):
     name: str
-    file: Optional[str]

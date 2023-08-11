@@ -1,3 +1,4 @@
+from typing import List
 from uuid import UUID
 
 from fastapi import UploadFile
@@ -9,28 +10,32 @@ from app.db.postgresql.decorators import duplicate, transaction
 from app.modules.products.utils import download_file
 from app.modules.products.tasks.tasks import resize_image
 from app.modules.products.crud.base import ProductCRUD
-from .schemas import ProductCreate, ProductDelete, ProductRetrieve, ProductUpdate
+from .schemas import ProductCreate, ProductDelete, ProductUpdate
 
 
 class ProductBaseServiceCRUD:
-    duplicate_message = "Entity already exists"
+    duplicate_message = "This entity already exists"
 
-    def __init__(self, session: "AsyncSession", table: Table):
+    def __init__(self, session: "AsyncSession", model: Table):
         self.session = session
-        self.table = table
-        self.entity = ProductCRUD(session=self.session, table=self.table)
+        self.model = model
+        self.entity = ProductCRUD(session=self.session, model=self.model)
 
     @duplicate(duplicate_message)
     @transaction
-    async def create(self, schema: ProductCreate, _commit: bool = True) -> Table:
-        entity = await self.entity.insert(data=schema.dict())
-        if hasattr(schema, "file"):
-            entity.image_path = download_file(
-                entity.name, file=schema.file
-            )  # TODO: celery?
+    async def create(
+        self,
+        schema: ProductCreate,
+        file: UploadFile,
+        _commit: bool = True,
+    ) -> Table:
+        schema = schema.dict()
+        entity = await self.entity.insert(data=schema)
+        if file:
+            entity.file = download_file(entity.name, file=file, model=self.model)
         return entity
 
-    async def get_all(self, *args, **kwargs) -> Table:
+    async def get_all(self, *args, **kwargs) -> List[Table]:
         return await self.entity.select(*args, **kwargs)
 
     async def get(self, id_: UUID | str) -> Table:
@@ -38,17 +43,16 @@ class ProductBaseServiceCRUD:
 
     @duplicate(duplicate_message)
     @transaction
-    async def update(self, schema: ProductUpdate, _commit: bool = True) -> Table:
-        schema = schema.dict()
+    async def update(
+        self, schema: ProductUpdate, file: UploadFile, _commit: bool = True
+    ) -> Table:
+        schema = schema.model_dump(exclude_unset=True)
         id_ = schema.pop("uuid")
-        file = schema.pop("file", None)
 
         if file:
             entity = await self.entity.update(id_=id_, data=schema)
-            image_path = download_file(
-                name=entity.name, file=file, model=self.table
-            )  # TODO: celery?
-            entity.image_path = image_path
+            file = download_file(name=entity.name, file=file, model=self.table)
+            entity.file = file
         else:
             entity = await self.entity.update(id_=id_, data=schema)
 

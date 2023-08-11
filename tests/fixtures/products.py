@@ -46,10 +46,3 @@ async def _data(
         return await factory.populate_data(many=False)
 
     return _method
-
-
-@pytest.fixture
-def _mocked_download_function(monkeypatch):
-    mock = Mock()
-    monkeypatch.setattr("app.modules.products.utils.download.download_file", mock)
-    return mock

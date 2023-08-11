@@ -53,7 +53,7 @@ class Deleted:
 class Image:
     """Mixin class for SQLAlchemy models image path field."""
 
-    image_path: Mapped[str] = mapped_column("image", String(255), nullable=True)
+    file: Mapped[str] = mapped_column("image", String(255), nullable=True)
 
 
 class Name:

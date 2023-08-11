@@ -4,7 +4,6 @@ import json
 import os
 from typing import Generator
 
-from fastapi import UploadFile
 import pytest
 import pytest_asyncio
 from httpx import AsyncClient
@@ -73,7 +72,7 @@ async def _async_client_as_staff(_async_session: AsyncSession) -> AsyncClient:
 
     async with AsyncClient(
         app=app,
-        base_url=f"http://{config.prefixes.admin}",
+        base_url=f"http://{config.prefixes.admin}/v1/products",
         headers={"access_token": config.security.key},
     ) as client:
         yield client

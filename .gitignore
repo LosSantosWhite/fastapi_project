@@ -129,4 +129,5 @@ dmypy.json
 .pyre/
 .idea/
 /runtime
-test.py
+/test.py
+./app/static

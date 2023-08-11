@@ -1,1 +1,1 @@
-from .tasks import resize_color_icon
+from .tasks import resize_image

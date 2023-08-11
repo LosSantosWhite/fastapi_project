@@ -9,13 +9,12 @@ from sqlalchemy.ext.asyncio import AsyncSession
 Table = TypeVar("Table", bound=Base)
 
 
-class CRUD(Generic[Table]):
+class CRUD:
     """Describes basic methods for managing table records."""
 
-    table: Type[Table]
-
-    def __init__(self, session: AsyncSession):
+    def __init__(self, session: AsyncSession, model: Table):
         self.session = session
+        self.table = model
 
     async def get(self, id_: UUID | str) -> Optional[Table]:
         return await self.session.get(self.table, id_)
