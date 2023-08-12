@@ -23,6 +23,7 @@ python-multipart = "^0.0.6"
 redis = "^4.6.0"
 httpx = "^0.24.1"
 pytest-asyncio = "^0.21.1"
+coverage = "^7.2.7"
 
 
 [build-system]

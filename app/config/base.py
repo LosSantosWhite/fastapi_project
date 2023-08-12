@@ -19,14 +19,14 @@ class AppSettings(BaseSettings):
 
 class Redis(BaseSettings):
     model_config = ConfigDict(env_prefix="REDIS_", env_file=ENV_FILE_PATH)
-    dsn: RedisDsn
+    dsn: RedisDsn = "redis://localhost:6379"
 
 
 class PostgreSQL(BaseSettings):
     __separator = "://"
     model_config = ConfigDict(env_prefix="POSTGRESQL_", env_file=ENV_FILE_PATH)
 
-    dsn: PostgresDsn = "postgres://user:password@127.0.0.1:5432/db"
+    dsn: PostgresDsn = "postgres+asyncpg://postgres:postgres@127.0.0.1:5432/postgres"
 
     def build_using_new_scheme(self, scheme: str) -> str:
         return f"{self.__separator}".join(
@@ -44,8 +44,8 @@ class PostgreSQL(BaseSettings):
 class APIPrefixes(BaseSettings):
     model_config = ConfigDict(env_prefix="PREFIX_", env_file=ENV_FILE_PATH)
 
-    admin: str
-    public: str
+    admin: str = "/admin"
+    public: str = "/public"
 
 
 class Security(BaseSettings):
