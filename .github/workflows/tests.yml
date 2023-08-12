@@ -27,13 +27,11 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-    
+
   steps:
     - uses: actions/checkout@v2
     - run: |
         git fetch --prune --unshallow
-    
-    
 
     - name: set up python 3.10
       uses: actions/setup-python@v3
@@ -45,14 +43,11 @@ jobs:
         python3 -m pip install black pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Lint with black
-        run: |
-          black app
-          black --check app
+      run: |
+        black app
+        black --check app
     - name: Create env file
       run: |
         touch .env
         echo SECURITY_KEY=${{ secrets.SECURITY_KEY }} >> .env
         cat .env
-    
-        
-        

@@ -128,6 +128,6 @@ dmypy.json
 # Pyre type checker
 .pyre/
 .idea/
-runtime
+./runtime/
 test.py
 app/static
