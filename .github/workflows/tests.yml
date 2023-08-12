@@ -30,7 +30,7 @@ jobs:
 
   steps:
     - uses: actions/checkout@v2
-    - run: |
+      run: |
         git fetch --prune --unshallow
 
     - name: set up python 3.10
