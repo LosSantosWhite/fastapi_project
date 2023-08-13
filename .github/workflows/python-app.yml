@@ -12,8 +12,11 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+  # Label of the container job
   container-job:
+    # Containers must run in Linux based operating systems
     runs-on: ubuntu-latest
+    # Docker Hub image that `container-job` executes in
     container: node:10.18-jessie
 
     # Service containers to run with `container-job`
@@ -31,8 +34,6 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-        run: |
-          psql -U postgres -d postgres < sql/create_database.sql
 
     steps:
       - uses: actions/checkout@v3
@@ -54,7 +55,8 @@ jobs:
       - name: Create env file
         run: |
           touch .env
-          echo POSTGRES_DSN = ${{ secrets.POSTGRESQL_DSN }}
+          echo POSTGRES_DSN=${{ secrets.POSTGRESQL_DSN }} >> .env
+          cat .env
 
       - name: Test with pytest
         run: |

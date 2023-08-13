@@ -26,7 +26,7 @@ class PostgreSQL(BaseSettings):
     __separator = "://"
     model_config = ConfigDict(env_prefix="POSTGRESQL_", env_file=ENV_FILE_PATH)
 
-    dsn: PostgresDsn = "postgres+asyncpg://postgres:postgres@127.0.0.1:5432/postgres"
+    dsn: PostgresDsn
 
     def build_using_new_scheme(self, scheme: str) -> str:
         return f"{self.__separator}".join(
