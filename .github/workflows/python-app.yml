@@ -23,6 +23,8 @@ jobs:
     steps:
       - name: Check Postgres connection
         run: psql -h localhost -U postgres
+        env:
+          POSTGRES_PASSWORD: postgres
       - uses: actions/checkout@v3
       - name: Install python
         uses: actions/setup-python@v4
