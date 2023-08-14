@@ -4,8 +4,18 @@ on:
     paths-ignore: ["*.txt", "*.ini"]
 
 jobs:
-  lint:
+  tests:
     runs-on: ubuntu-latest
+    services:
+      postgresql:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       - uses: actions/checkout@v3
       - name: Install python
@@ -13,9 +23,20 @@ jobs:
         with:
           python-version: "3.10"
           cache: "pip"
+      - name: Create .env file
+        run: |
+          touch .env
+          echo SECURITY_KEY=${{secrets.SECURITY_KEY}} >> .env
+          echo POSTGRESQL_DSN=${{secrets.POSTGRESQL_DSN}} >> .env
 
       - name: Install dependecies
         run: pip install -r requirements.txt
 
-      - name: Lint code
-        run: black .
+      - name: Creating database
+        run: psql -U postgres -d postgres < sql/create_database.sql
+
+      - name: Creating tables in Postgres
+        run: alembic --upgrade head
+
+      - name: Run tests
+        run: pytest
