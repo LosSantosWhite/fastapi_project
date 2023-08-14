@@ -21,6 +21,8 @@ jobs:
           --health-timeout 5s
           --health-retries 5
     steps:
+      - name: Check Postgres connection
+        run: psql -h localhost -U postgres
       - uses: actions/checkout@v3
       - name: Install python
         uses: actions/setup-python@v4
