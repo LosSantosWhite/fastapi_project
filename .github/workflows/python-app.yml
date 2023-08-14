@@ -8,10 +8,11 @@ jobs:
     runs-on: ubuntu-latest
     services:
       postgresql:
-        image: postgres
+        image: postgres:latest
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: infanta_test
         ports:
           - 5432:5432
 
@@ -21,10 +22,6 @@ jobs:
           --health-timeout 5s
           --health-retries 5
     steps:
-      - name: Check Postgres connection
-        run: psql -h localhost -U postgres
-        env:
-          POSTGRES_PASSWORD: postgres
       - uses: actions/checkout@v3
       - name: Install python
         uses: actions/setup-python@v4
@@ -40,10 +37,7 @@ jobs:
       - name: Install dependecies
         run: pip install -r requirements.txt
 
-      - name: Creating database
-        run: psql -U postgres -d postgres < sql/create_database.sql
-
-      - name: Creating tables in Postgres
+      - name: Run migrations
         run: alembic --upgrade head
 
       - name: Run tests
