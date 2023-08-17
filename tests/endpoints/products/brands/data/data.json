@@ -32,6 +32,12 @@
                 "name": "Some new name",
                 "file": "tests/endpoints/products/brands/data/test_image.png"
             }
+        },
+        "delete": {
+            "want": {
+                "status": true,
+                "message": "The brand has been deleted!"
+            }
         }
     }
 }

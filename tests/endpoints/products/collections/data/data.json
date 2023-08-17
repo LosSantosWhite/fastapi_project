@@ -1,0 +1,63 @@
+{
+    "init_data": {
+        "collections": [
+            {
+                "name": "Mango",
+                "file": "tests/endpoints/products/collections/data/test_image.png",
+                "brand_id": "196fed6d-8c87-49f2-9590-390431549b79"
+            }
+        ],
+        "brands": [
+            {
+                "uuid": "196fed6d-8c87-49f2-9590-390431549b79",
+                "name": "Joie",
+                "file": "tests/endpoints/products/brands/data/test_image.png"
+            }
+        ]
+    },
+    "cases": {
+        "create": {
+            "payload": {
+                "name": "Mango",
+                "file": "tests/endpoints/products/collections/data/test_image.png"
+            },
+            "want": {
+                "name": "Mango",
+                "file": "tests/endpoints/products/collections/data/test_image.png",
+                "brand": {
+                    "name": "Joie",
+                    "file": "tests/endpoints/products/brands/data/test_image.png"
+                }
+            }
+        },
+        "get": {
+            "want": {
+                "name": "Mango",
+                "file": "tests/endpoints/products/collections/data/test_image.png",
+                "brand": {
+                    "name": "Joie",
+                    "file": "tests/endpoints/products/brands/data/test_image.png"
+                }
+            }
+        },
+        "patch": {
+            "payload": {
+                "collection_name": "Some new name"
+            },
+            "want": {
+                "name": "Some new name",
+                "file": "tests/endpoints/products/collections/data/test_image.png",
+                "brand": {
+                    "name": "Joie",
+                    "file": "tests/endpoints/products/brands/data/test_image.png"
+                }
+            }
+        },
+        "delete": {
+            "want": {
+                "status": true,
+                "message": "The collection has been deleted!"
+            }
+        }
+    }
+}

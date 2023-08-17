@@ -1,19 +1,16 @@
 from uuid import UUID
 from typing import List
 
-from fastapi import APIRouter, Depends, UploadFile, status, Request
+from fastapi import APIRouter, Depends, UploadFile, status
 
 from app.modules.products.brands.service import BrandService
 from app.modules.products.brands.dependencies import get_brand_service
-from app.modules.products.base.schemas import (
-    ProductRetrieve,
-    ProductCreate,
-    ProductUpdate,
-    ProductDelete,
+from app.modules.products.brands.schemas import (
+    BrandRetrieve,
+    BrandCreate,
+    BrandUpdate,
+    BrandDelete,
 )
-from app.modules.products.utils import download_file
-
-from app.modules.products.crud.models import Brand
 
 admin_brand_router = APIRouter(
     prefix="/brand", tags=["CRUD operations for product's brand model"]
@@ -21,16 +18,17 @@ admin_brand_router = APIRouter(
 
 
 @admin_brand_router.get(
-    "/all", status_code=status.HTTP_200_OK, response_model=List[ProductRetrieve]
+    "/all", status_code=status.HTTP_200_OK, response_model=List[BrandRetrieve]
 )
 async def get_all_brands_as_staff(
     brand_service: BrandService = Depends(get_brand_service),
 ):
-    return await brand_service.get_all()
+    result = await brand_service.get_all()
+    return result
 
 
 @admin_brand_router.get(
-    "/{brand_uuid}", response_model=ProductRetrieve, status_code=status.HTTP_200_OK
+    "/{brand_uuid}", response_model=BrandRetrieve, status_code=status.HTTP_200_OK
 )
 async def get_brand_as_staff(
     brand_uuid: UUID, brand_service: BrandService = Depends(get_brand_service)
@@ -39,19 +37,19 @@ async def get_brand_as_staff(
 
 
 @admin_brand_router.post(
-    "", response_model=ProductRetrieve, status_code=status.HTTP_201_CREATED
+    "", response_model=BrandRetrieve, status_code=status.HTTP_201_CREATED
 )
 async def create_brand_as_staff(
     name: str,
     file: UploadFile,
     brand_service: BrandService = Depends(get_brand_service),
 ):
-    schema = ProductCreate(name=name)
+    schema = BrandCreate(name=name)
     return await brand_service.create(schema=schema, file=file)
 
 
 @admin_brand_router.patch(
-    "/{brand_uuid}", response_model=ProductRetrieve, status_code=status.HTTP_200_OK
+    "/{brand_uuid}", response_model=BrandRetrieve, status_code=status.HTTP_200_OK
 )
 async def update_brand_as_staff(
     brand_uuid: UUID | str,
@@ -60,7 +58,7 @@ async def update_brand_as_staff(
     brand_service: BrandService = Depends(get_brand_service),
 ):
     return await brand_service.update(
-        schema=ProductUpdate(uuid=brand_uuid, name=name), file=file
+        schema=BrandUpdate(uuid=brand_uuid, name=name), file=file
     )
 
 
@@ -68,10 +66,8 @@ async def update_brand_as_staff(
 async def delete_brand_as_staff(
     brand_uuid: UUID | str,
     brand_service: BrandService = Depends(get_brand_service),
-    permanent: bool = False,
 ):
-    schema = ProductDelete(uuid=brand_uuid)
     return {
-        "status": await brand_service.delete(schema=ProductDelete, permanent=permanent),
+        "status": await brand_service.delete(schema=BrandDelete(uuid=brand_uuid)),
         "message": "The brand has been deleted!",
     }

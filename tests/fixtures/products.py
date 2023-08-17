@@ -5,6 +5,7 @@ from unittest.mock import Mock
 
 
 from app.db.postgresql.crud import Table
+from app.modules.products.base.crud.models import Brand, Collection
 from tests.factory import Factory
 
 
@@ -39,7 +40,7 @@ async def _data(
     _async_session: AsyncSession,
     _test_data: dict,
 ):
-    async def _method(model: Table):
+    async def _method(model: Table, _test_data: dict = _test_data):
         factory = DataFactory(
             async_session=_async_session, model=model, data=_test_data
         )

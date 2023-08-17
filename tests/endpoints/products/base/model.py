@@ -10,8 +10,6 @@ from typing import Generic
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db.postgresql.crud import Table
-from app.modules.products.crud.models import Brand
-from app.modules.products.utils import download
 from tests.utils.assertions import assert_dict_response, assert_list_response
 
 
@@ -78,8 +76,7 @@ class Base(Generic[Table]):
     ):
         entities = await _datas(model=self.model)
         response = await _async_client_as_staff.get(f"{self.base_url}/all")
-        print(f"{'-'*20}>{response.url}")
-        print(response.json())
+
         assert response.status_code == 200
         got = response.json()
 
@@ -122,3 +119,26 @@ class Base(Generic[Table]):
 
         assert entity.name == got["name"]
         assert entity.file == want["file"]
+
+    @pytest.mark.asyncio
+    async def test_delete(
+        self,
+        _async_client_as_staff: "AsyncClient",
+        _data: "Table",
+        _test_data: dict,
+        _async_session: "AsyncSession",
+    ):
+        entity = await _data(model=self.model)
+
+        response = await _async_client_as_staff.delete(f"{self.base_url}/{entity.uuid}")
+        assert response.status_code == 200
+
+        got = response.json()
+
+        want = _test_data["cases"]["delete"]["want"]
+
+        assert_dict_response(got=got, want=want)
+
+        stmt = select(self.model).where(self.model.uuid == entity.uuid)
+        result = await _async_session.execute(stmt)
+        assert result.scalar() == None

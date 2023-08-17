@@ -20,7 +20,12 @@ def download_file(name: str, file: UploadFile, model: Table) -> str:
     path = create_dirs_if_not_exists(
         Path(
             os.path.join(
-                "app", "static", "images", model.__tablename__, name, f"{name}.webp"
+                "app",
+                "static",
+                "images",
+                model.__tablename__,
+                name,
+                f"{file.filename}.webp",
             )
         )
     )

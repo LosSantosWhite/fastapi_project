@@ -6,17 +6,17 @@ from app.modules.products.base.schemas import (
 )
 
 
-class BrandCreate(ProductCreate):
+class ColorCreate(ProductCreate):
     ...
 
 
-class BrandUpdate(ProductUpdate):
+class ColorUpdate(ProductUpdate):
     ...
 
 
-class BrandDelete(ProductDelete):
+class ColorDelete(ProductDelete):
     ...
 
 
-class BrandRetrieve(ProductRetrieve):
+class ColorRetrieve(ProductRetrieve):
     ...

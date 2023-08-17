@@ -3,7 +3,7 @@ from fastapi import Depends
 
 from .service import ColorService
 from app.db.postgresql.dependencies import get_async_session, AsyncSession
-from app.modules.products.crud.models import Color
+from app.modules.products.base.crud.models import Color
 
 
 def get_color_service(

@@ -1,8 +1,6 @@
 from typing import Optional
 from uuid import UUID
 
-from fastapi import UploadFile
-
 from datetime import date, datetime
 from typing import Any
 

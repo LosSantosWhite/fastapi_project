@@ -9,7 +9,7 @@ from app.db.postgresql.crud import Table
 from app.db.postgresql.decorators import duplicate, transaction
 from app.modules.products.utils import download_file
 from app.modules.products.tasks.tasks import resize_image
-from app.modules.products.crud.base import ProductCRUD
+from app.modules.products.base.crud.base import ProductCRUD
 from .schemas import ProductCreate, ProductDelete, ProductUpdate
 
 
@@ -41,11 +41,8 @@ class ProductBaseServiceCRUD:
     async def get(self, id_: UUID | str) -> Table:
         return await self.entity.get(id_=id_)
 
-    @duplicate(duplicate_message)
     @transaction
-    async def update(
-        self, schema: ProductUpdate, file: UploadFile, _commit: bool = True
-    ) -> Table:
+    async def update(self, schema, file: UploadFile, _commit: bool = True) -> Table:
         schema = schema.model_dump(exclude_unset=True)
         id_ = schema.pop("uuid")
 
@@ -60,4 +57,4 @@ class ProductBaseServiceCRUD:
 
     @transaction
     async def delete(self, schema: ProductDelete, commit: bool = True) -> bool or None:
-        return await self.entity.delete(**schema.dict())
+        return await self.entity.delete(id_=schema.uuid)

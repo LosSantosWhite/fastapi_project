@@ -3,7 +3,7 @@ from fastapi import Depends
 
 from .service import BrandService
 from app.db.postgresql.dependencies import get_async_session, AsyncSession
-from app.modules.products.crud.models import Brand
+from app.modules.products.base.crud.models import Brand
 
 
 def get_brand_service(

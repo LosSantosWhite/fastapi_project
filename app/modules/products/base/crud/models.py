@@ -32,7 +32,7 @@ class Brand(Base, Deleted, Name, Timestamp, Image, ID):
 
 class Collection(Base, Deleted, Name, Timestamp, Image, ID):
     """
-    Table for model's collection
+    Table for brand's collection
     """
 
     __tablename__ = "collection"
