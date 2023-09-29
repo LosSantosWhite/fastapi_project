@@ -2,19 +2,20 @@ from typing import Generic, Optional, Type, TypeVar
 from uuid import UUID
 
 from app.db.postgresql.base import Base
-from sqlalchemy import TextClause, func, inspect, select, update
+from sqlalchemy import TextClause, func, inspect, select, update, Sequence
 from sqlalchemy.ext.asyncio import AsyncSession
 
 
 Table = TypeVar("Table", bound=Base)
 
 
-class CRUD:
+class CRUD(Generic[Table]):
     """Describes basic methods for managing table records."""
 
-    def __init__(self, session: AsyncSession, model: Table):
+    table: Table
+
+    def __init__(self, session: AsyncSession):
         self.session = session
-        self.table = model
 
     async def get(self, id_: UUID | str) -> Optional[Table]:
         return await self.session.get(self.table, id_)

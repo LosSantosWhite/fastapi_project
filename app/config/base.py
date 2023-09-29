@@ -1,14 +1,13 @@
 from pathlib import Path
-from typing import Literal
 from pydantic import ConfigDict, PostgresDsn, RedisDsn
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 BASE_DIR = Path(__file__).parents[2]
 ENV_FILE_PATH = BASE_DIR / ".env"
 
 
 class AppSettings(BaseSettings):
-    model_config = ConfigDict(env_prefix="APP_", env_file=ENV_FILE_PATH)
+    model_config = SettingsConfigDict(env_prefix="APP_", env_file=ENV_FILE_PATH)
 
     title: str = "app name"
     host: str = "localhost"
@@ -18,13 +17,13 @@ class AppSettings(BaseSettings):
 
 
 class Redis(BaseSettings):
-    model_config = ConfigDict(env_prefix="REDIS_", env_file=ENV_FILE_PATH)
+    model_config = SettingsConfigDict(env_prefix="REDIS_", env_file=ENV_FILE_PATH)
     dsn: RedisDsn = "redis://localhost:6379"
 
 
 class PostgreSQL(BaseSettings):
     __separator = "://"
-    model_config = ConfigDict(env_prefix="POSTGRESQL_", env_file=ENV_FILE_PATH)
+    model_config = SettingsConfigDict(env_prefix="POSTGRESQL_", env_file=ENV_FILE_PATH)
 
     dsn: PostgresDsn
 
@@ -42,20 +41,31 @@ class PostgreSQL(BaseSettings):
 
 
 class APIPrefixes(BaseSettings):
-    model_config = ConfigDict(env_prefix="PREFIX_", env_file=ENV_FILE_PATH)
+    model_config = SettingsConfigDict(env_prefix="PREFIX_", env_file=ENV_FILE_PATH)
 
     admin: str = "/admin"
     public: str = "/public"
 
 
 class Security(BaseSettings):
-    model_config = ConfigDict(env_prefix="SECURITY_", env_file=ENV_FILE_PATH)
+    model_config = SettingsConfigDict(env_prefix="SECURITY_", env_file=ENV_FILE_PATH)
 
     key: str
 
 
+class S3(BaseSettings):
+    model_config = SettingsConfigDict(env_prefix="S3_", env_file=ENV_FILE_PATH)
+
+    aws_secret_access_key: str
+    aws_access_key_id: str
+    service_name: str = "s3"
+    endpoint_url: str
+    region_name: str
+    bucket_name: str
+
+
 class Config(BaseSettings):
-    model_config = ConfigDict(env_file=ENV_FILE_PATH, extra="allow")
+    model_config = SettingsConfigDict(env_file=ENV_FILE_PATH, extra="allow")
 
     app: AppSettings
     postgresql: PostgreSQL
@@ -71,4 +81,5 @@ class Config(BaseSettings):
             redis=Redis(),
             prefixes=APIPrefixes(),
             security=Security(),
+            s3=S3(),
         )

@@ -1,4 +1,4 @@
-from sqlalchemy import MetaData
+from sqlalchemy import MetaData, Sequence
 from sqlalchemy.ext import asyncio as sa_async
 from sqlalchemy.orm import declarative_base, sessionmaker
 
@@ -25,7 +25,6 @@ engine: sa_async.AsyncEngine = sa_async.create_async_engine(
     future=True,
 )
 
-# noinspection PyTypeChecker
 SessionFactory = sessionmaker(
     bind=engine,
     autocommit=False,

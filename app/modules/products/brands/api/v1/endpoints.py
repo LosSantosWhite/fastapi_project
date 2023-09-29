@@ -44,8 +44,7 @@ async def create_brand_as_staff(
     file: UploadFile,
     brand_service: BrandService = Depends(get_brand_service),
 ):
-    schema = BrandCreate(name=name)
-    return await brand_service.create(schema=schema, file=file)
+    return await brand_service.create(data=dict(name=name), file=file)
 
 
 @admin_brand_router.patch(

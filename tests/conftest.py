@@ -5,8 +5,10 @@ import os
 from typing import Generator
 
 import pytest
-import pytest_asyncio
 from httpx import AsyncClient
+import pytest_asyncio
+
+from sqlalchemy import text
 from sqlalchemy.ext.asyncio import (
     AsyncConnection,
     AsyncSession,
@@ -42,7 +44,9 @@ async def _db_connection() -> Generator:
     )
     async with async_engine.connect() as conn:
         await conn.run_sync(Base.metadata.drop_all)
+
         await conn.run_sync(Base.metadata.create_all)
+
         await conn.commit()
         yield conn
         await conn.run_sync(Base.metadata.drop_all)

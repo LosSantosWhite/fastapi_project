@@ -10,7 +10,15 @@ from typing import Generic
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db.postgresql.crud import Table
+from app.external.s3.service import S3_Service
 from tests.utils.assertions import assert_dict_response, assert_list_response
+from app.config import config
+
+
+async def return_image_path(*args, **kwargs):
+    return (
+        f"{config.s3.endpoint_url}/{config.s3.bucket_name}/{kwargs['file_uuid']}.webp"
+    )
 
 
 class Base(Generic[Table]):
@@ -22,27 +30,31 @@ class Base(Generic[Table]):
 
     # |Tests|
     @pytest.mark.asyncio
-    @patch("app.modules.products.base.service.download_file")
+    @patch.object(S3_Service, "upload_file", return_image_path)
     async def test_create(
         self,
-        _mocked_download_file: Mock,
+        # _mocked_download_file: Mock,
         _async_session: "AsyncSession",
         _test_data: dict,
         _test_image_entity: BufferedReader,
         _async_client_as_staff: "AsyncClient",
     ):
         payload = _test_data["cases"]["create"]["payload"]
-        _mocked_download_file.return_value = payload["file"]
+        # _mocked_download_file.return_value = payload["file"]
 
         response = await _async_client_as_staff.post(
-            f"{self.base_url}?name={payload['name']}",
+            f"{self.base_url}",
+            params=dict(name=payload["name"]),
             files={"file": _test_image_entity},
         )
         assert response.status_code == 201
         got = response.json()
+
         want = _test_data["cases"]["create"]["want"]
+        want["file"] = await return_image_path(file_uuid=got["uuid"])
         assert_dict_response(got=got, want=want)
         stmt = select(self.model).where(self.model.uuid == got["uuid"])
+
         result = await _async_session.execute(stmt)
         entity: Table = result.scalar_one()
 

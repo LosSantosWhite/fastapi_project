@@ -1,5 +1,5 @@
 from tests.endpoints.products.base.model import Base
-from app.modules.products.base.crud.models import Brand
+from app.modules.products.brands.crud.models import Brand
 
 
 class TestBrand(Base[Brand]):

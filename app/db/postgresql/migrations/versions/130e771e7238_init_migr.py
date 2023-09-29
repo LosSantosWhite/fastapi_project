@@ -1,8 +1,8 @@
-"""change name of image_path to file
+"""init migr
 
-Revision ID: a35db564ba27
-Revises: e90c2e6d5d03
-Create Date: 2023-08-10 21:25:18.906449
+Revision ID: 130e771e7238
+Revises: 35ffb602f4b8
+Create Date: 2023-09-25 13:06:14.157719
 
 """
 from alembic import op
@@ -10,8 +10,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'a35db564ba27'
-down_revision = 'e90c2e6d5d03'
+revision = '130e771e7238'
+down_revision = '35ffb602f4b8'
 branch_labels = None
 depends_on = None
 

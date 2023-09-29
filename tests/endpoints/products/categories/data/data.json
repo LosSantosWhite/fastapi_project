@@ -1,0 +1,28 @@
+{
+    "init_data": {
+        "categorys": [
+            {
+                "name": "Коляски",
+                "file": "tests/endpoints/products/сategories/data/test_image.png"
+            }
+        ]
+    },
+    "cases": {
+        "get": {
+            "all": {
+                "want": [
+                    {
+                        "name": "Коляски",
+                        "file": "tests/endpoints/products/сategories/data/test_image.png"
+                    }
+                ]
+            },
+            "by_uuid": {
+                "want": {
+                    "name": "Коляски",
+                    "file": "tests/endpoints/products/сategories/data/test_image.png"
+                }
+            }
+        }
+    }
+}

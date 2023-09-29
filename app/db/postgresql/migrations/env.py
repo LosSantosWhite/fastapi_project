@@ -24,14 +24,12 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-from app.modules.products.crud.models import (
-    Brand,
-    Color,
-    Collection,
-    Sku,
-    Model,
-    SkuImage,
-)
+from app.modules.products.brands.crud.models import Brand
+from app.modules.products.categories.crud.models import Category
+from app.modules.products.collections.crud.models import Collection
+from app.modules.products.colors.crud.models import Color
+from app.modules.products.models.crud.models import Model, model_category_mtm_table
+from app.modules.products.sku.crud.models import Sku
 from app.db.postgresql.base import Base
 
 target_metadata = Base.metadata

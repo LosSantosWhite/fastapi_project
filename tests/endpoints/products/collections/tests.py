@@ -6,8 +6,8 @@ from sqlalchemy import select
 from sqlalchemy.orm import selectinload
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.db.postgresql.crud import Table
-from app.modules.products.base.crud.models import Collection, Brand
+from app.modules.products.collections.crud.models import Collection
+from app.modules.products.brands.crud.models import Brand
 from tests.utils.assertions import assert_dict_response
 
 

@@ -2,26 +2,22 @@
     "init_data": {
         "brands": [
             {
-                "name": "Swandoo",
-                "file": "tests/endpoints/products/brands/data/test_image.png"
+                "name": "Swandoo"
             }
         ]
     },
     "cases": {
         "create": {
             "payload": {
-                "name": "Joie",
-                "file": "tests/endpoints/products/brands/data/test_image.png"
+                "name": "Joie"
             },
             "want": {
-                "name": "Joie",
-                "file": "tests/endpoints/products/brands/data/test_image.png"
+                "name": "Joie"
             }
         },
         "get": {
             "want": {
-                "name": "Swandoo",
-                "file": "tests/endpoints/products/brands/data/test_image.png"
+                "name": "Swandoo"
             }
         },
         "patch": {
@@ -29,8 +25,7 @@
                 "name": "Some new name"
             },
             "want": {
-                "name": "Some new name",
-                "file": "tests/endpoints/products/brands/data/test_image.png"
+                "name": "Some new name"
             }
         },
         "delete": {

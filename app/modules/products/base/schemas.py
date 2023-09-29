@@ -4,13 +4,11 @@ from uuid import UUID
 from datetime import date, datetime
 from typing import Any
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, HttpUrl
 
 
 class BaseModelDict(BaseModel):
-    model_config = ConfigDict(
-        from_attributes=True, protected_namespaces=("_protected",)
-    )
+    model_config = ConfigDict(from_attributes=True)
 
     def dict(self, *args, **kwargs) -> dict[str, Any]:
         values = super().model_dump(*args, **kwargs)
@@ -34,7 +32,7 @@ class ProductUpdate(BaseModelDict):
 class ProductRetrieve(BaseModelDict):
     uuid: UUID | str
     name: str
-    file: str
+    file: HttpUrl
 
 
 class ProductCreate(BaseModelDict):

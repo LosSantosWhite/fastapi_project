@@ -5,7 +5,6 @@ from unittest.mock import Mock
 
 
 from app.db.postgresql.crud import Table
-from app.modules.products.base.crud.models import Brand, Collection
 from tests.factory import Factory
 
 

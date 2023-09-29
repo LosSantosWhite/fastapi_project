@@ -1,4 +1,4 @@
-from app.modules.products.base.crud.models import Color
+from app.modules.products.colors.crud.models import Color
 from tests.endpoints.products.base.model import Base
 
 
